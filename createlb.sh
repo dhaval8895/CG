@@ -7,7 +7,7 @@ echo "Creating health checks..."
 gcloud compute health-checks create http dashboard-cluster-basic-check --port $BACKEND_PORT --healthy-threshold 1 --unhealthy-threshold 10 --check-interval 60 --timeout 60
 
 echo "Creating an instance group..."
-export INSTANCE_GROUP=$(gcloud container clusters describe dashboard-cluster-cluster --format="value(instanceGroupUrls)" | awk -F/ '{print $NF}')
+export INSTANCE_GROUP=$(gcloud container clusters describe dashboard-cluster --format="value(instanceGroupUrls)" | awk -F/ '{print $NF}')
 
 echo "Creating named ports..."
 gcloud compute instance-groups managed set-named-ports $INSTANCE_GROUP --named-ports "port${BACKEND_PORT}:${BACKEND_PORT}"
