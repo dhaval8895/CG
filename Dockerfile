@@ -8,5 +8,6 @@ COPY . .
 RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 5006
-
-CMD python -m bokeh serve --disable-index-redirect --num-procs=2 --port=5006 --address=0.0.0.0 --allow-websocket-origin=35.227.225.51.xip.io dashboard.py
+# [START CMD]
+CMD python -m bokeh serve --disable-index-redirect --num-procs=4 --port=5006 --address=0.0.0.0 --allow-websocket-origin=$DASHBOARD_DEMO_DOMAIN dashboard.py
+# [END CMD]
