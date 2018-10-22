@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
       - name: bokeh
-        image: gcr.io/dashapp-218819/dashboard-test@sha256:50c8542a4f100a9818d3864c68eb28ead5652bc4db40b8ab53b7484bdcf2768f
+        image: gcr.io/dashapp-218819/dashboard-test@sha256:34faa0b0b45a5944162172d5c0db54ee90623da57527cce8d288c846394116fb
         ports:
         - containerPort: 5006
         env:
