@@ -3,3 +3,5 @@ pandas
 bokeh
 holoviews
 datetime
+google-cloud
+google-cloud-bigquery

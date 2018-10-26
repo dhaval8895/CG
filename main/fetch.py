@@ -1,12 +1,11 @@
 import numpy as np
 import pandas as pd
 from datetime import datetime
-from google.cloud import bigquery
+import google.cloud.bigquery as bigquery
 from google.oauth2 import service_account
 import numpy as np
 import pandas as pd
 from datetime import datetime
-from google.cloud import bigquery
 from google.oauth2 import service_account
 import os
 files = os.listdir()
@@ -15,6 +14,7 @@ for f in files:
     if f.endswith('json'):
         json.append(f)
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = json[0]
+
 class import_data:
     
     def __init__(self, query):
@@ -27,8 +27,8 @@ class import_data:
         output = query_job.result().to_dataframe()
         print("Data fetched from BigQuery")
         data = output
-        print("Performing Data Preperations")
         #Creating features
+        print("Performing Data Preperations")
         data['start_date'] = data['start_time'].apply(lambda x:x.strftime('%Y-%m-%d'))
         data['end_date'] = data['end_time'].apply(lambda x:x.strftime('%Y-%m-%d'))
         data['start_time'] = pd.to_datetime(data['start_time'])

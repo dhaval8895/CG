@@ -19,13 +19,23 @@ import calendar
 class heatmap:
     def __init__(self, df):
         self.data = df
+        #print(self.data.info())
+        self.data['Weekday'] = self.data['start_time'].apply(lambda x:x.strftime("%a"))
+        self.data['Hour'] = self.data['start_time'].apply(lambda x:x.strftime("%I %p"))
     def plot_heatmap(self):
         ##Stacked Bar chart for Day and Event Type
-        self.day_hour = self.data.groupby(by = ['start_day', 'start_hour']).agg({'start_day': 'count'}).rename(columns = {'start_day':'Sessions'})
+        self.day_hour = self.data.groupby(by = ['Weekday', 'Hour']).agg({'Weekday': 'count'}).rename(
+            columns = {'Weekday':'Sessions'}
+        )
         self.day_hour = self.day_hour.reset_index()
-        key_dimensions_hm = [('start_day', 'Day'), ('start_hour', 'Hour')]
+        #print(self.day_hour)
+        key_dimensions_hm = [('Weekday', 'Weekday'), ('Hour', 'Hour')]
         value_dimensions_hm = [('Sessions')]
         macro_hm = hv.Table(self.day_hour, key_dimensions_hm, value_dimensions_hm)
-        self.hm = macro_hm.to.heatmap(['Day', 'Hour'], 'Sessions', []).options(width=1100, show_legend=False, height = 600, 
+        hm = macro_hm.to.heatmap(['Weekday', 'Hour'], 'Sessions', []).options(width=408, show_legend=True, height = 405, 
                                                                                color=hv.Cycle('Category20b'), tools = ['hover'])
-        return self.hm
+        hm_plot = renderer.get_plot(hm).state
+        hm_plot.y_range = FactorRange(factors = ['01 AM', '02 AM', '03 AM', '04 AM', '05 AM', '06 AM', '07 AM', '08 AM', '09 AM',
+                                                 '10 AM', '11 AM', '12 PM', '01 PM', '02 PM', '03 PM', '04 PM', '05 PM', '06 PM',
+                                                 '07 PM', '08 PM', '09 PM', '10 PM', '11 PM'])
+        return hm_plot

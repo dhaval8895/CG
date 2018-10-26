@@ -1,22 +1,19 @@
+import calendar
+import datetime as DT
+from datetime import datetime, date
 import numpy as np
 import pandas as pd
 import holoviews as hv
 from bokeh.plotting import show, figure, curdoc, output_file
 from bokeh.models.tools import PanTool, SaveTool
-from bokeh.io import output_file, show
-from bokeh.plotting import figure
-from datetime import datetime, date
+from bokeh.io import output_file, show, curdoc
 from bokeh.layouts import layout, widgetbox, column, row
 from bokeh.models import ColumnDataSource, HoverTool, BoxZoomTool, ResetTool, PanTool, WheelZoomTool, SaveTool, LassoSelectTool
 from bokeh.models import CustomJS, ColumnDataSource, Slider, DateRangeSlider, DatetimeTickFormatter
-from bokeh.models.widgets import Slider, Select, TextInput, Div, DataTable, DateFormatter, TableColumn, Panel, Tabs, CheckboxButtonGroup, Toggle
-from bokeh.io import curdoc, output_file, show
-import calendar
+from bokeh.models.widgets import Slider, Select, TextInput, Div, DataTable, DateFormatter, TableColumn, Panel, Tabs, Toggle
 from bokeh.io import output_file, show
-from bokeh.layouts import widgetbox
 from bokeh.models.widgets import RadioButtonGroup, Button
 from bokeh.models.widgets.inputs import DatePicker
-import datetime as DT
 
 class mainplot:
     def __init__(self, df):
@@ -33,8 +30,7 @@ class mainplot:
         self.daily_sessions['Month_Abb'] = self.daily_sessions['Month'].apply(lambda x: calendar.month_abbr[x])
         self.daily_sessions['Month_Abb'] = str(self.daily_sessions['Month_Abb'])
         self.daily_sessions = self.daily_sessions.sort_values(by = ['Year', 'Month', 'Day'])
-        #print(self.daily_sessions.head(10))
-        
+                
         #Creating Session Duration data set
         self.avg_time = self.data[['start_date', 'start_time', 'end_time']]
         self.avg_time['Delta'] = self.avg_time['end_time'] - self.avg_time['start_time']
@@ -46,14 +42,12 @@ class mainplot:
         self.avg_time['Avg_Time'] = round(self.avg_time['Avg_Time'])
         self.avg_time = self.avg_time.reset_index()
         self.avg_time = self.avg_time.sort_values(by = ['Year', 'Month', 'Day'])
-        #print(self.avg_time.head(10))
         
         #Creating Users data set
         self.users = self.data.groupby(['start_date', 'device_id']).count().reset_index()
         self.users = self.users.groupby(['start_date', 'device_id']).device_id.count()
         self.users = pd.DataFrame(self.users).rename(columns = {'device_id': 'Users'}).reset_index()
         self.users_final = self.users.groupby('start_date').sum().reset_index()
-        #print(self.users_final.head(10))
         
         #Creating Final Data set for CDS
         self.daily_sessions = self.daily_sessions[['start_date', 'Year', 'Month', 'Day', 'Sessions']]
@@ -63,8 +57,6 @@ class mainplot:
         self.data_final['Date'] = self.daily_sessions['start_date']
         self.data_final['Users'] = self.users_final['Users']
         self.data_final = self.data_final.rename(columns = {'Avg_Time':'Session Duration'})
-        #print(self.data_final.head(10))
-        #print(self.data_final.info())
         
         
         #Adding Widgets
@@ -165,7 +157,6 @@ class mainplot:
             Month = df["Month"],
             Day = df["Day"]
         )
-        #print(df)
         
     def final_sketch(self):
         controls = [self.options, self.date_from, self.date_to]
