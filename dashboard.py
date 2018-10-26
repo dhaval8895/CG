@@ -38,9 +38,9 @@ from Charts import barchart
 bar = barchart.bars(data).plot_barchart()
 print("Barchart Live")
 
-from Charts import test
+from Charts import home
 
-main_page = test.mainplot(data)
+main_page = home.mainplot(data)
 sketch = main_page.prepare()
 inputs = main_page.final_sketch()
 plot_layout = layout([[inputs, sketch[0]]], sizing_mode='fixed')

@@ -30,7 +30,7 @@ class mainplot:
         self.daily_sessions['Month_Abb'] = self.daily_sessions['Month'].apply(lambda x: calendar.month_abbr[x])
         self.daily_sessions['Month_Abb'] = str(self.daily_sessions['Month_Abb'])
         self.daily_sessions = self.daily_sessions.sort_values(by = ['Year', 'Month', 'Day'])
-                
+        
         #Creating Session Duration data set
         self.avg_time = self.data[['start_date', 'start_time', 'end_time']]
         self.avg_time['Delta'] = self.avg_time['end_time'] - self.avg_time['start_time']
@@ -58,7 +58,6 @@ class mainplot:
         self.data_final['Users'] = self.users_final['Users']
         self.data_final = self.data_final.rename(columns = {'Avg_Time':'Session Duration'})
         
-        
         #Adding Widgets
         self.options = Select(title="", options=["Last 7 days", "Last 30 days", "Last 90 days", "Custom.."], value="Last 7 days")
         self.radio_button_group = RadioButtonGroup(labels=["Users", "Sessions", "Session Duration"], active=1)
@@ -83,8 +82,9 @@ class mainplot:
         
         #Creating Plot
         self.source = ColumnDataSource(data=dict(x = [], y = [], Year=[], Month=[], Day=[], Date=[]))
-        self.plot = figure(plot_width=708, plot_height=405, logo = None, tools = 'wheel_zoom,box_zoom,reset,save')
-                          #x_axis_type="datetime")
+        self.plot = figure(plot_width=708, plot_height=405, tools = 'wheel_zoom,box_zoom,reset,save')
+                          #x_axis_type="datetime" logo = None,    
+        self.plot.toolbar.logo = None
         self.plot.add_tools(self.hover1)
         self.plot.xgrid.visible = False
         self.plot.line(x = 'x', y = 'y', line_width = 3, source=self.source, color = "#2097BE")

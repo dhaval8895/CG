@@ -8,13 +8,12 @@ from bokeh.plotting import figure
 from datetime import datetime, date
 from bokeh.layouts import layout, widgetbox, column, row
 from bokeh.models import ColumnDataSource, HoverTool, BoxZoomTool, ResetTool, PanTool, WheelZoomTool, SaveTool, LassoSelectTool
-from bokeh.models import CustomJS, ColumnDataSource, Slider, DateRangeSlider
+from bokeh.models import CustomJS, ColumnDataSource, Slider, DateRangeSlider, FactorRange
 from bokeh.models.widgets import Slider, Select, TextInput, Div, DataTable, DateFormatter, TableColumn, Panel, Tabs
 from bokeh.io import curdoc, output_file, show
 import calendar
 
-#hv.extension('bokeh', logo=False)
-#renderer = hv.renderer('bokeh')
+renderer = hv.renderer('bokeh')
 
 class heatmap:
     def __init__(self, df):
