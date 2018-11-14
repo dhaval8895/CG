@@ -4,14 +4,13 @@ import holoviews as hv
 from bokeh.plotting import show, figure, curdoc, output_file
 from bokeh.models.tools import PanTool, SaveTool
 from bokeh.io import output_file, show
-from bokeh.plotting import figure
 from datetime import datetime, date
 from bokeh.layouts import layout, widgetbox, column, row
 from bokeh.models import ColumnDataSource, HoverTool, BoxZoomTool, ResetTool, PanTool, WheelZoomTool, SaveTool, LassoSelectTool
-from bokeh.models import CustomJS, ColumnDataSource, Slider, DateRangeSlider, FactorRange
+from bokeh.models import CustomJS, ColumnDataSource, Slider, DateRangeSlider
 from bokeh.models.widgets import Slider, Select, TextInput, Div, DataTable, DateFormatter, TableColumn, Panel, Tabs
 from bokeh.io import curdoc, output_file, show
-import calendar
+from bokeh.models import CustomJS, ColumnDataSource, Slider, DateRangeSlider, DatetimeTickFormatter, FactorRange
 
 renderer = hv.renderer('bokeh')
 
@@ -31,8 +30,9 @@ class heatmap:
         key_dimensions_hm = [('Weekday', 'Weekday'), ('Hour', 'Hour')]
         value_dimensions_hm = [('Sessions')]
         macro_hm = hv.Table(self.day_hour, key_dimensions_hm, value_dimensions_hm)
-        hm = macro_hm.to.heatmap(['Weekday', 'Hour'], 'Sessions', []).options(width=408, show_legend=True, height = 405, 
-                                                                               color=hv.Cycle('Category20b'), tools = ['hover'])
+        hm = macro_hm.to.heatmap(['Weekday', 'Hour'], 'Sessions', []).options(width=748, show_legend=True, height = 525, 
+                                                                               color=hv.Cycle('Spectral'), tools = ['hover'],
+                                                                              title_format = "Heatmap")
         hm_plot = renderer.get_plot(hm).state
         hm_plot.y_range = FactorRange(factors = ['01 AM', '02 AM', '03 AM', '04 AM', '05 AM', '06 AM', '07 AM', '08 AM', '09 AM',
                                                  '10 AM', '11 AM', '12 PM', '01 PM', '02 PM', '03 PM', '04 PM', '05 PM', '06 PM',
