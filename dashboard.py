@@ -22,24 +22,10 @@ def disable_logo(plot, element):
 hv.plotting.bokeh.ElementPlot.finalize_hooks.append(disable_logo)
 
 from main import fetch
-'''
+
 query = ("""SELECT * FROM cg_sessions.session_event ORDER BY id""") 
 bigquery = fetch.import_data(query)
 data = bigquery.data_output()
-'''
-data = pd.read_csv("cg_sessions.csv")
-data = data.drop(columns=["Unnamed: 0"])
-data['start_date'] = data['start_time'].apply(lambda x:x.split()[0])
-data['end_date'] = data['end_time'].apply(lambda x:x.split()[0])
-data['start_time'] = pd.to_datetime(data['start_time'])
-data['start_day'] = data['start_time'].apply(lambda x:x.day)
-data['start_month'] = data['start_time'].apply(lambda x:x.month)
-data['start_hour'] = data['start_time'].apply(lambda x:x.hour)
-data['start_minute'] = data['start_time'].apply(lambda x:x.minute)
-data['end_time'] = pd.to_datetime(data['end_time'])
-data['end_hour'] = data['end_time'].apply(lambda x:x.hour)
-data['end_minute'] = data['end_time'].apply(lambda x:x.minute)
-data['Avg_session'] = data['end_minute'] - data['start_minute']
 
 from Charts import heatmap
 
